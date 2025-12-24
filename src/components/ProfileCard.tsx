@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Mail } from 'lucide-react';
+import { Github, Twitter, Mail } from 'lucide-react';
 import './ProfileCard.css';
 
 const ProfileCard: React.FC = () => {
@@ -17,9 +17,7 @@ const ProfileCard: React.FC = () => {
 
             <div className="profile-socials">
                 <a href="https://github.com/zm3158125-blip" className="social-link"><Github size={20} /></a>
-                <a href="https://space.bilibili.com/3493283730819516?spm_id_from=333.1007.0.0" className="social-link">
-                    <img src="./public/Bilibili.svg" alt="Bilibili" style={{ width: '20px', height: '20px' }} />
-                </a>
+                <a href="https://space.bilibili.com/3493283730819516?spm_id_from=333.1007.0.0" className="social-link"><Twitter size={20} /></a>
                 <a href="mailto:zlx528gtr@outlook.com" className="social-link"><Mail size={20} /></a>
             </div>
         </div>
