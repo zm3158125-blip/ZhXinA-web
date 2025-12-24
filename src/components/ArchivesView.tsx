@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Calendar } from 'lucide-react';
-import './PostList.css'; // Reusing PostList styles for glass morphism
+import './PostList.css'; // 为实现玻璃拟态复用帖子列表样式
 
 const ArchivesView: React.FC = () => {
     return (
