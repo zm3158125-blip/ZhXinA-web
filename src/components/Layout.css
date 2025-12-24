@@ -1,0 +1,81 @@
+.app-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    flex: 1;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 24px;
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+.left-column,
+.right-column {
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+    height: fit-content;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin: 0 20px;
+    margin-bottom: 20px;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content-grid {
+        grid-template-columns: 260px 1fr 260px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 240px 1fr;
+    }
+
+    .right-column {
+        display: none;
+        /* Hide right sidebar or move to bottom if needed. For now hiding for simplicity or stack? */
+        /* Let's stack right column below left column content if possible or just hide/move */
+    }
+
+    /* Alternative: Move stats to a different place or just hide */
+}
+
+@media (max-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .left-column,
+    .right-column {
+        position: static;
+        width: 100%;
+    }
+
+    .left-column {
+        margin-bottom: 20px;
+    }
+
+    /* Re-enable right column content for mobile stacking */
+    .right-column {
+        display: block;
+        margin-top: 20px;
+    }
+}
