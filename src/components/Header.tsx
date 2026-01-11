@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, onSearch }) => {
         <header className="header glass-card">
             <div className="header-content">
                 <div className="logo-section">
-                    <img src="/vite.svg" alt="Logo" className="logo-icon" />
+                    <img src="/logo.png" alt="Logo" className="logo-icon" />
                     <span className="logo-text">隆隆是我</span>
                 </div>
 

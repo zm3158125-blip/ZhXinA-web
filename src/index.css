@@ -2,7 +2,7 @@
   /* 1. 把自定义字体加入全局字体变量（核心！） */
   --font-family: "我的字体", 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  /* 调色板 - 基于 MizukiUI 参考 (柔和蓝/白/玻璃感) */
+  /* 调色板 (柔和蓝/白/玻璃感) */
   --color-primary: #3b82f6;
   --color-primary-hover: #2563eb;
   --color-bg-light: #f3f4f6;
@@ -123,4 +123,17 @@ button {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: var(--card-radius);
+}
+
+/* 全局去除安卓点击蓝色高亮 */
+* {
+  -webkit-tap-highlight-color: transparent;
+  /* 核心：去除webkit内核（安卓Chrome/微信浏览器）的点击高亮 */
+  tap-highlight-color: transparent;
+  /* 兼容非webkit内核浏览器 */
+  /* 可选：额外优化体验 */
+  -webkit-touch-callout: none;
+  /* 去除长按弹出的系统菜单 */
+  user-select: none;
+  /* 禁止文字被选中（按需保留，若有输入框需单独放开） */
 }
