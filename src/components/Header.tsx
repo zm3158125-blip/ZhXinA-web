@@ -64,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, onSearch }) => {
                             <a href="#" className="dropdown-item">
                                 <span className="icon">🖼️</span> 相册
                             </a>
-                            <a href="#" className="dropdown-item">
+                            <a href="https://www.mi.com/redmi-k60ultra" className="dropdown-item">
                                 <span className="icon">📱</span> 我的设备
                             </a>
                         </div>
