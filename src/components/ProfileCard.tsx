@@ -7,7 +7,7 @@ const ProfileCard: React.FC = () => {
         <div className="profile-card glass-card">
             <div className="profile-image-container">
                 <img
-                    src="./public/logo.svg"
+                    src="/public/logo.svg"
                     alt="Avatar"
                     className="profile-avatar"
                 />
