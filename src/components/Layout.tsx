@@ -16,6 +16,7 @@ import type { PostData } from '../utils/markdown';
 // Import getAllPosts
 import { getAllPosts } from '../utils/markdown';
 
+
 const Layout: React.FC = () => {
     const [activeView, setActiveView] = useState('home');
     const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
@@ -112,9 +113,7 @@ const Layout: React.FC = () => {
                 /* Fullscreen Mode (Default behavior) */
                 ${wallpaperMode === 'fullscreen' || wallpaperMode === 'default' ? `
                     body {
-                        background-image: url('/bg.webp');
-                        background-size: cover;
-                        background-position: center;
+                        background: radial-gradient(circle, #f3e5f5, #14708c);
                         background-attachment: fixed;
                         background-repeat: no-repeat;
                     }
@@ -177,7 +176,7 @@ const Layout: React.FC = () => {
 
                 <div className="content-grid">
                     <aside className="left-column">
-                        <ProfileCard />
+                        {activeView === 'home' && <ProfileCard />}
                     </aside>
 
                     <section className="center-column" style={{ overflow: 'hidden' }}>
