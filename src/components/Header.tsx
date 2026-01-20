@@ -56,10 +56,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, onSearch }) => {
                         </div>
                         <div className="dropdown-menu glass-card">
                             <a href="#" className="dropdown-item">
-                                <span className="icon">📺</span> 番剧
+                                <span className="icon"><img src="/public/Kernel.svg"
+                                    style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
+                                /></span> 内核
                             </a>
                             <a href="#" className="dropdown-item">
-                                <span className="icon">📔</span> 日记
+                                <span className="icon"><img src="/public/magisk.svg"
+                                    style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
+                                /></span> root教程
                             </a>
                             <a href="#" className="dropdown-item">
                                 <span className="icon">🖼️</span> 相册
@@ -123,16 +127,20 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, onSearch }) => {
 
                 <div className="mobile-nav-divider">我的</div>
 
-                <a href="#" className="mobile-nav-item sub-item">
-                    <span className="icon">📺</span> 番剧
+                <a href="#" className="dropdown-item">
+                    <span className="icon"><img src="/public/Kernel.svg"
+                        style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
+                    /></span> 内核
                 </a>
                 <a href="#" className="mobile-nav-item sub-item">
-                    <span className="icon">📔</span> 日记
+                    <span className="icon"><img src="/public/magisk.svg"
+                        style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
+                    /></span> root教程
                 </a>
                 <a href="#" className="mobile-nav-item sub-item">
                     <span className="icon">🖼️</span> 相册
                 </a>
-                <a href="#" className="mobile-nav-item sub-item">
+                <a href="https://www.mi.com/redmi-k60ultra" className="mobile-nav-item sub-item">
                     <span className="icon">📱</span> 我的设备
                 </a>
 

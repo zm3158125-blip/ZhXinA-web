@@ -54,3 +54,47 @@ export async function getAllPosts(): Promise<PostData[]> {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
 }
+
+export async function getKernelArticles(): Promise<PostData[]> {
+    // Directly import the kernel articles files instead of using glob
+    // This ensures the files are properly included in the build
+    const articles: PostData[] = [];
+    
+    try {
+        // Import each file directly
+        const clearDataContent = await import('../kernel_Article/clear-data.md?raw');
+        const hideEnvContent = await import('../kernel_Article/hide-env.md?raw');
+        
+        // Process clear-data.md
+        const { attributes: clearDataAttrs, body: clearDataBody } = frontMatter<FrontMatterAttributes>(clearDataContent.default);
+        articles.push({
+            id: 'clear-data',
+            slug: 'clear-data',
+            title: clearDataAttrs.title || 'Untitled',
+            date: clearDataAttrs.date || new Date().toISOString().split('T')[0],
+            tags: clearDataAttrs.tags || [],
+            excerpt: clearDataAttrs.excerpt || clearDataBody.slice(0, 100) + '...',
+            content: clearDataBody,
+            wordCount: clearDataBody.trim().split(/\s+/).length,
+            isPinned: clearDataAttrs.isPinned,
+        });
+        
+        // Process hide-env.md
+        const { attributes: hideEnvAttrs, body: hideEnvBody } = frontMatter<FrontMatterAttributes>(hideEnvContent.default);
+        articles.push({
+            id: 'hide-env',
+            slug: 'hide-env',
+            title: hideEnvAttrs.title || 'Untitled',
+            date: hideEnvAttrs.date || new Date().toISOString().split('T')[0],
+            tags: hideEnvAttrs.tags || [],
+            excerpt: hideEnvAttrs.excerpt || hideEnvBody.slice(0, 100) + '...',
+            content: hideEnvBody,
+            wordCount: hideEnvBody.trim().split(/\s+/).length,
+            isPinned: hideEnvAttrs.isPinned,
+        });
+    } catch (error) {
+        console.error('Error loading kernel articles:', error);
+    }
+    
+    return articles;
+}

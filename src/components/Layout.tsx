@@ -11,6 +11,8 @@ import OthersView from './OthersView';
 import './Layout.css';
 
 import PostDetail from './PostDetail';
+import ClearDataPage from '../pages/ClearDataPage';
+import HideEnvPage from '../pages/HideEnvPage';
 import type { PostData } from '../utils/markdown';
 
 // Import getAllPosts
@@ -19,8 +21,10 @@ import { getAllPosts } from '../utils/markdown';
 
 const Layout: React.FC = () => {
     const [activeView, setActiveView] = useState('home');
+    const [previousView, setPreviousView] = useState('home'); // New state for previous view
     const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
     const [wallpaperMode, setWallpaperMode] = useState('default');
+    const [activeArticle, setActiveArticle] = useState<string | null>(null); // New state for active article page
 
     // New state for posts and search
     const [posts, setPosts] = useState<PostData[]>([]);
@@ -52,6 +56,7 @@ const Layout: React.FC = () => {
     // Handle standard navigation
     const handleNavigate = (view: string) => {
         setActiveView(view);
+        setActiveArticle(null); // Reset article state when navigating to other views
         if (view !== 'post-detail') {
             setSelectedPost(null);
         }
@@ -59,8 +64,16 @@ const Layout: React.FC = () => {
 
     // Handle post selection
     const handlePostClick = (post: PostData) => {
+        setPreviousView(activeView); // Save current view before navigating to post detail
         setSelectedPost(post);
         setActiveView('post-detail');
+    };
+
+    // Handle article page navigation
+    const handleArticleNavigate = (articleId: string) => {
+        setPreviousView(activeView); // Save current view
+        setActiveArticle(articleId);
+        setActiveView('article-detail');
     };
 
     // Animation variants
@@ -93,12 +106,21 @@ const Layout: React.FC = () => {
                             return selectedPost ? (
                                 <PostDetail
                                     post={selectedPost}
-                                    onBack={() => handleNavigate('home')}
+                                    onBack={() => handleNavigate(previousView)}
                                 />
                             ) : <PostList posts={filteredPosts} loading={loading} onPostClick={handlePostClick} />;
+                        case 'article-detail':
+                            switch (activeArticle) {
+                                case 'clear-data':
+                                    return <ClearDataPage onBack={() => handleNavigate(previousView)} />;
+                                case 'hide-env':
+                                    return <HideEnvPage onBack={() => handleNavigate(previousView)} />;
+                                default:
+                                    return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Article not found</div>;
+                            }
                         case 'archives': return <ArchivesView />;
                         case 'friendly-links': return <FriendlyLinksView />;
-                        case 'others': return <OthersView />;
+                        case 'others': return <OthersView onArticleClick={handleArticleNavigate} />;
                         default: return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Section: {activeView}</div>;
                     }
                 })()}
@@ -186,7 +208,7 @@ const Layout: React.FC = () => {
                     </section>
 
                     <aside className="right-column">
-                        <Sidebar posts={posts} />
+                        <Sidebar posts={posts} showStats={activeView === 'home'} />
                     </aside>
                 </div>
             </main>

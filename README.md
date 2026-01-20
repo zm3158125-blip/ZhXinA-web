@@ -12,7 +12,8 @@
   - `PostList.tsx`: 首页文章列表，展示文章摘要（Markdown 渲染，限制 3 行）。
   - `PostDetail.tsx`: 文章详情页，展示完整的 Markdown 渲染内容。
   - `Hero.tsx`: 首页顶部的 Hero 区域（标语/简介）。
-  - `Sidebar.tsx`: 侧边栏，通常包含个人信息或小工具。
+  - `ProfileCard.tsx`: 个人信息卡片，展示头像、名称、简介和社交链接。
+  - `Sidebar.tsx`: 侧边栏，包含站点统计数据（仅首页显示）。
   - `FriendlyLinksView.tsx`: 友链展示页面，包含分类过滤和搜索功能。
   - `ArchivesView.tsx`: 归档页面（待完善）。
   - `OthersView.tsx`: 其他页面（待完善）。

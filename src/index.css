@@ -1,6 +1,6 @@
 :root {
-  /* 1. 把自定义字体加入全局字体变量（核心！） */
-  --font-family: "我的字体", 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* 使用默认系统字体 */
+  --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   /* 调色板 (柔和蓝/白/玻璃感) */
   --color-primary: #3b82f6;
@@ -39,17 +39,6 @@ html.dark {
   --glass-bg: rgba(15, 23, 42, 0.6);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* 2. 先声明自定义字体（放在样式开头，避免优先级问题） */
-@font-face {
-  font-family: "我的字体";
-  src: url("./components/Luoli.woff2") format("woff2");
-  /* 可选：增加字体权重/样式，确保兼容性 */
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-  /* 优化加载体验，避免页面空白 */
 }
 
 /* 全局样式重置 */
@@ -132,8 +121,8 @@ button {
   tap-highlight-color: transparent;
   /* 兼容非webkit内核浏览器 */
   /* 可选：额外优化体验 */
-  -webkit-touch-callout: none;
-  /* 去除长按弹出的系统菜单 */
-  user-select: none;
-  /* 禁止文字被选中（按需保留，若有输入框需单独放开） */
+  /* 允许长按弹出系统菜单，支持复制功能 */
+  -webkit-touch-callout: default;
+  /* 允许文字被选中和复制 */
+  user-select: auto;
 }

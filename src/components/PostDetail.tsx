@@ -11,7 +11,7 @@ interface PostDetailProps {
 
 const PostDetail: React.FC<PostDetailProps> = ({ post, onBack }) => {
     return (
-        <div className="post-detail glass-card fade-in">
+        <div className="post-detail glass-card">
             <button onClick={onBack} className="back-btn">
                 <ArrowLeft size={20} />
                 <span>返回列表</span>

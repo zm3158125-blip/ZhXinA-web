@@ -19,7 +19,11 @@ const ProfileCard: React.FC = () => {
                 <a href="https://github.com/zm3158125-blip" className="social-link"><Github size={20} /></a>
                 <a href="https://space.bilibili.com/3493283730819516?spm_id_from=333.1007.0.0" className="social-link">
                     <img
+<<<<<<< Updated upstream
                         src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bilibili.svg"
+=======
+                        src="/public/bilibilif.svg"
+>>>>>>> Stashed changes
                         alt="Bilibili"
                         width={20}
                         height={20}
