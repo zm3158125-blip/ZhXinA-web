@@ -7,27 +7,40 @@
 ### `src/` - 源代码目录
 
 - **`components/`** - UI 组件
-  - `Header.tsx`: 顶部导航栏，包含主题切换（日/夜模式）、搜索框和导航链接。
+  - `Header.tsx`: 顶部导航栏，包含主题切换（日/夜模式，支持跟随系统）、搜索框和导航链接。
   - `Layout.tsx`: 主布局组件，处理路由视图切换和页面过渡动画。
-  - `PostList.tsx`: 首页文章列表，展示文章摘要（Markdown 渲染，限制 3 行）。
-  - `PostDetail.tsx`: 文章详情页，展示完整的 Markdown 渲染内容。
   - `Hero.tsx`: 首页顶部的 Hero 区域（标语/简介）。
   - `ProfileCard.tsx`: 个人信息卡片，展示头像、名称、简介和社交链接。
-  - `Sidebar.tsx`: 侧边栏，包含站点统计数据（仅首页显示）。
+  - `PostList.tsx`: 首页文章列表，展示文章摘要（Markdown 渲染，限制 3 行）。
+  - `PostDetail.tsx`: 文章详情页，展示完整的 Markdown 渲染内容。
+  - `Sidebar.tsx`: 侧边栏，包含站点统计数据。
+  - `ArchivesView.tsx`: 归档页面，展示网站运行时间。
   - `FriendlyLinksView.tsx`: 友链展示页面，包含分类过滤和搜索功能。
-  - `ArchivesView.tsx`: 归档页面（待完善）。
-  - `OthersView.tsx`: 其他页面（待完善）。
+  - `OthersView.tsx`: 其他页面，包含图片圆角处理工具。
+  - `RootTutorialView.tsx`: Root 教程页面，包含设备选择、风险提示和分步教程。
   - `LinkCard.tsx`: 友链卡片组件。
+  - `RootTutorial/` - Root 教程子组件目录
+    - `DeviceSelector.tsx`: 设备选择组件
+    - `RiskWarning.tsx`: 风险警告组件
+    - `TutorialStep.tsx`: 教程步骤组件
+
+- **`pages/`** - 文章页面组件
+  - `ClearDataPage.tsx`: 拉闸清除数据教程页面
+  - `HideEnvPage.tsx`: 隐藏环境教程页面
 
 - **`posts/`** - 博客文章 Markdown 文件
   - 存放所有的 `.md` 文章文件。文件名即为 URL slug。
   - 文件头部需包含 yaml frontmatter (标题、日期、标签等)。
 
+- **`kernel_Article/`** - 内核文章 Markdown 文件
+  - 存放内核相关的 `.md` 文章文件，供教程页面使用。
+
 - **`utils/`** - 工具函数
-  - `markdown.ts`: 用于读取和解析 `posts/` 目录下所有 Markdown 文件的核心逻辑。
+  - `markdown.ts`: 用于读取和解析 `posts/` 和 `kernel_Article/` 目录下所有 Markdown 文件的核心逻辑。
 
 - **`data/`** - 静态数据
   - `friendLinks.ts`: 友链数据配置文件。
+  - `rootTutorialData.ts`: Root 教程步骤数据配置文件。
 
 ### `public/` - 静态资源
 存放图片、图标 (SVG) 等不需要编译的静态文件。
@@ -78,9 +91,10 @@ npm run build
 ```
 
 ## 技术栈 (Tech Stack)
-- **React 18+**
+- **React 19**
 - **TypeScript**
 - **Vite**
 - **Framer Motion** (动画)
 - **Lucide React** (图标)
 - **React Markdown** (Markdown 渲染)
+- **Front Matter** (Markdown 元数据解析)

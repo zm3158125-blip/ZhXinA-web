@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { MoreHorizontal, Image as ImageIcon, Download, Upload } from 'lucide-react';
-import './OthersView.css'; // 创建单独的CSS文件以实现玻璃拟态样式
+import DeviceSelector from './RootTutorial/DeviceSelector';
+import RiskWarning from './RootTutorial/RiskWarning';
+import TutorialStep from './RootTutorial/TutorialStep';
+import { TUTORIAL_STEPS } from '../data/rootTutorialData';
+import './RootTutorial/RootTutorial.css';
+import './OthersView.css';
 
 // Define article data interface
 interface ArticleData {
@@ -21,6 +26,40 @@ const OthersView: React.FC<{ onArticleClick: (articleId: string) => void }> = ({
     const [processedImage, setProcessedImage] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Root Tutorial states
+    const [tutorialStage, setTutorialStage] = useState<'device-select' | 'risk-warning' | 'tutorial'>('device-select');
+    const [currentStepIndex, setCurrentStepIndex] = useState(0);
+
+    // Root Tutorial handlers
+    const handleDeviceSelect = () => {
+        setTutorialStage('risk-warning');
+    };
+
+    const handleRiskAccept = () => {
+        setTutorialStage('tutorial');
+        setCurrentStepIndex(0);
+    };
+
+    const handleRiskBack = () => {
+        setTutorialStage('device-select');
+    };
+
+    const handleNextStep = () => {
+        if (currentStepIndex < TUTORIAL_STEPS.length - 1) {
+            setCurrentStepIndex(prev => prev + 1);
+        } else {
+            alert('恭喜你完成了Root基础知识的学习！');
+        }
+    };
+
+    const handlePrevStep = () => {
+        if (currentStepIndex > 0) {
+            setCurrentStepIndex(prev => prev - 1);
+        } else {
+            setTutorialStage('risk-warning');
+        }
+    };
 
     // Handle image upload
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,6 +208,26 @@ const OthersView: React.FC<{ onArticleClick: (articleId: string) => void }> = ({
                 </div>
             </div>
 
+            {/* Root Tutorial Section */}
+            <div className="root-tutorial-wrapper" style={{ marginTop: '40px' }}>
+                {tutorialStage === 'device-select' && (
+                    <DeviceSelector onSelect={handleDeviceSelect} />
+                )}
+
+                {tutorialStage === 'risk-warning' && (
+                    <RiskWarning onContinue={handleRiskAccept} onBack={handleRiskBack} />
+                )}
+
+                {tutorialStage === 'tutorial' && (
+                    <TutorialStep
+                        stepIndex={currentStepIndex}
+                        totalSteps={TUTORIAL_STEPS.length}
+                        onNext={handleNextStep}
+                        onPrev={handlePrevStep}
+                    />
+                )}
+            </div>
+
             {/* Image rounded corner feature */}
             <div className="image-feature" style={{
                 marginTop: '40px',
@@ -290,7 +349,7 @@ const OthersView: React.FC<{ onArticleClick: (articleId: string) => void }> = ({
                             />
                         </div>
 
-                        {/* Processed image */}
+                        {/* (Processed已处理) image */}
                         <div className="image-container" style={{
                             maxWidth: '45%',
                             textAlign: 'center'

@@ -91,6 +91,7 @@
 .link-actions {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 
 .action-btn {
@@ -110,6 +111,7 @@
     border-radius: 8px;
     font-size: 0.9rem;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .visit-btn:hover {

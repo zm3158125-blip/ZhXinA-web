@@ -2,21 +2,33 @@
   /* 使用默认系统字体 */
   --font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  /* 调色板 (柔和蓝/白/玻璃感) */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
+  /* 调色板 (Modern Glass Premium) */
+  --color-primary: #6366f1;
+  /* Indigo 500 */
+  --color-primary-hover: #4f46e5;
+  /* Indigo 600 */
+
   --color-bg-light: #f3f4f6;
+  /* Gray 100 - soft base for light mode */
 
-  --color-text-main: #1f2937;
+  --color-text-main: #111827;
+  /* Gray 900 */
   --color-text-secondary: #4b5563;
+  /* Gray 600 */
   --color-text-light: #9ca3af;
+  /* Gray 400 */
 
-  /* 玻璃拟态变量 */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-bg-dark: rgba(30, 41, 59, 0.7);
+  /* Mappings for compatibility */
+  --text-primary: var(--color-text-main);
+  --text-secondary: var(--color-text-secondary);
+
+  /* 玻璃拟态 (Glassmorphism) */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-dark: rgba(17, 24, 39, 0.7);
+  /* Gray 900 with opacity */
   --glass-border: rgba(255, 255, 255, 0.5);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-  --glass-blur: 16px;
+  --glass-blur: 20px;
 
   --card-radius: 20px;
   --transition-speed: 0.3s;
@@ -28,15 +40,23 @@
 
 /* Dark Mode Variables */
 html.dark {
-  --color-primary: #60a5fa;
-  --color-primary-hover: #93c5fd;
-  --color-bg-light: #1e293b;
+  --color-primary: #818cf8;
+  /* Indigo 400 */
+  --color-primary-hover: #6366f1;
+  /* Indigo 500 */
+
+  --color-bg-light: #0f172a;
+  /* Slate 900 - Deep dark blue/gray */
 
   --color-text-main: #f9fafb;
+  /* Gray 50 */
   --color-text-secondary: #d1d5db;
+  /* Gray 300 */
   --color-text-light: #9ca3af;
+  /* Gray 400 */
 
-  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  /* Slate 800 with opacity */
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
@@ -51,21 +71,43 @@ html.dark {
 }
 
 body {
-  /* background-image: url('/bg.webp');  Removed for dynamic control */
   color: var(--color-text-main);
   background-color: var(--color-bg-light);
-  /* background-size: cover; */
-  /* background-position: center; */
-  /* background-attachment: fixed; */
-  /* background-repeat: no-repeat; */
-  background-position: center;
+
+  /* Animated Flowing Gradient (Blue-Green Theme) */
+  background: linear-gradient(-45deg,
+      rgba(99, 102, 241, 0.12),
+      /* Indigo */
+      rgba(16, 185, 129, 0.12),
+      /* Emerald */
+      rgba(6, 182, 212, 0.12),
+      /* Cyan */
+      rgba(139, 92, 246, 0.12)
+      /* Violet */
+    );
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+
   background-attachment: fixed;
-  background-repeat: no-repeat;
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-bottom: 50px;
+  padding-bottom: env(safe-area-inset-bottom, 50px);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 a {

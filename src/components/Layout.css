@@ -37,45 +37,31 @@
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .content-grid {
-        grid-template-columns: 260px 1fr 260px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .content-grid {
-        grid-template-columns: 240px 1fr;
-    }
-
-    .right-column {
-        display: none;
-        /* Hide right sidebar or move to bottom if needed. For now hiding for simplicity or stack? */
-        /* Let's stack right column below left column content if possible or just hide/move */
-    }
-
-    /* Alternative: Move stats to a different place or just hide */
-}
-
-@media (max-width: 900px) {
+/* Mobile Responsive Styles */
+@media screen and (max-width: 1024px) {
     .content-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .left-column,
     .right-column {
         position: static;
-        width: 100%;
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main-container {
+        padding: 0 12px;
     }
 
-    .left-column {
-        margin-bottom: 20px;
+    .content-grid {
+        padding-bottom: 80px;
     }
 
-    /* Re-enable right column content for mobile stacking */
-    .right-column {
-        display: block;
-        margin-top: 20px;
+    .footer {
+        margin: 0 12px;
+        padding: 16px;
     }
 }

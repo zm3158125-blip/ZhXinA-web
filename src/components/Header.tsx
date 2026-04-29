@@ -1,155 +1,100 @@
 import React from 'react';
-import { Home, Archive, Link as LinkIcon, User, MoreHorizontal, Search, Menu } from 'lucide-react';
+import {
+    Search,
+    Home,
+    Archive,
+    Link as LinkIcon,
+    MoreHorizontal,
+    User
+} from 'lucide-react';
 import './Header.css';
 
 interface HeaderProps {
+    activeView: string;
     onNavigate: (view: string) => void;
-    onWallpaperChange: (mode: string) => void;
     onSearch: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onNavigate, onSearch }) => {
-    const [isDark, setIsDark] = React.useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onSearch }) => {
+    const [isDark, setIsDark] = React.useState(() => {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) document.documentElement.classList.add('dark');
+        return prefersDark;
+    });
+
+    // Listen for system theme changes
+    React.useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = (e: MediaQueryListEvent) => {
+            setIsDark(e.matches);
+            if (e.matches) document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+        };
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
+    }, []);
 
     const toggleTheme = () => {
         setIsDark(!isDark);
         document.documentElement.classList.toggle('dark');
     };
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
-
-    const handleMobileNav = (view: string) => {
-        onNavigate(view);
-        setIsMobileMenuOpen(false);
-    };
-
     return (
         <header className="header glass-card">
             <div className="header-content">
                 <div className="logo-section">
-                    <img src="/logo.png" alt="Logo" className="logo-icon" />
-                    <span className="logo-text">隆隆是我</span>
+                    <img src="/logo.png" className="logo-icon" alt="Logo" />
+                    <span>隆隆是我</span>
                 </div>
 
+                {/* ===== 玻璃导航 (Radio Group with Glider) ===== */}
                 <nav className="nav-menu">
-                    <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>
-                        <Home size={18} />
-                        <span>首页</span>
-                    </a>
-                    <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); onNavigate('archives'); }}>
-                        <Archive size={18} />
-                        <span>归档</span>
-                    </a>
-                    <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); onNavigate('friendly-links'); }}>
-                        <LinkIcon size={18} />
-                        <span>友链</span>
-                    </a>
+                    {/* Radios (Hidden) */}
+                    <input type="radio" name="nav" id="nav-home" checked={activeView === 'home'} onChange={() => onNavigate('home')} />
+                    <input type="radio" name="nav" id="nav-archives" checked={activeView === 'archives'} onChange={() => onNavigate('archives')} />
+                    <input type="radio" name="nav" id="nav-links" checked={activeView === 'friendly-links'} onChange={() => onNavigate('friendly-links')} />
+                    <input type="radio" name="nav" id="nav-profile" checked={activeView === 'profile'} onChange={() => onNavigate('profile')} />
+                    <input type="radio" name="nav" id="nav-others" checked={activeView === 'others'} onChange={() => onNavigate('others')} />
 
-                    {/* Dropdown for "My" */}
-                    <div className="nav-item dropdown-container">
-                        <div className="dropdown-trigger">
-                            <User size={18} />
-                            <span>我的</span>
-                        </div>
-                        <div className="dropdown-menu glass-card">
-                            <a href="#" className="dropdown-item">
-                                <span className="icon"><img src="/public/Kernel.svg"
-                                    style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
-                                /></span> 内核
-                            </a>
-                            <a href="#" className="dropdown-item">
-                                <span className="icon"><img src="/public/magisk.svg"
-                                    style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
-                                /></span> root教程
-                            </a>
-                            <a href="#" className="dropdown-item">
-                                <span className="icon">🖼️</span> 相册
-                            </a>
-                            <a href="https://www.mi.com/redmi-k60ultra" className="dropdown-item">
-                                <span className="icon">📱</span> 我的设备
-                            </a>
-                        </div>
-                    </div>
+                    {/* Nav Items */}
+                    <label htmlFor="nav-home" className="nav-item">
+                        <Home size={18} /> 首页
+                    </label>
 
-                    <a href="#" className="nav-item" onClick={(e) => { e.preventDefault(); onNavigate('others'); }}>
-                        <MoreHorizontal size={18} />
-                        <span>其他</span>
-                    </a>
+                    <label htmlFor="nav-archives" className="nav-item">
+                        <Archive size={18} /> 归档
+                    </label>
+
+                    <label htmlFor="nav-links" className="nav-item">
+                        <LinkIcon size={18} /> 友链
+                    </label>
+
+                    <label htmlFor="nav-profile" className="nav-item">
+                        <User size={18} /> 我的
+                    </label>
+
+                    <label htmlFor="nav-others" className="nav-item">
+                        <MoreHorizontal size={18} /> 其他
+                    </label>
+
+                    {/* The Glider Pill */}
+                    <div className="glass-glider"></div>
                 </nav>
 
                 <div className="header-actions">
                     <div className="search-bar">
                         <Search size={16} />
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            onChange={(e) => onSearch(e.target.value)}
+                        <input placeholder="Search" onChange={e => onSearch(e.target.value)} />
+                    </div>
+
+                    <button className={`theme-toggle ${isDark ? 'dark-active' : ''}`} onClick={toggleTheme}>
+                        <img
+                            src={isDark ? '/Navigation_bar/Evening.png' : '/Navigation_bar/Sun.png'}
+                            alt={isDark ? '切换到浅色模式' : '切换到深色模式'}
+                            className="theme-icon"
                         />
-                    </div>
-                    <div className={`theme-toggle ${isDark ? 'dark-active' : ''}`} onClick={toggleTheme} role="button" tabIndex={0}>
-                        <div className="toggle-track">
-                            <div className="toggle-icon sun-icon">
-                                <img src="/sun.svg" alt="Light Mode" />
-                            </div>
-                            <div className="toggle-icon moon-icon">
-                                <img src="/bark.svg" alt="Dark Mode" />
-                            </div>
-                            <div className="toggle-thumb" />
-                        </div>
-                    </div>
-                    <button
-                        className="icon-btn mobile-only"
-                        onClick={toggleMobileMenu}
-                        aria-label="Menu"
-                    >
-                        <Menu size={20} />
                     </button>
                 </div>
-            </div>
-
-            {/* Mobile Menu Overlay */}
-            <div className={`mobile-menu glass-card ${isMobileMenuOpen ? 'open' : ''}`}>
-                <a href="#" className="mobile-nav-item" onClick={(e) => { e.preventDefault(); handleMobileNav('home'); }}>
-                    <Home size={20} />
-                    <span>首页</span>
-                </a>
-                <a href="#" className="mobile-nav-item" onClick={(e) => { e.preventDefault(); handleMobileNav('archives'); }}>
-                    <Archive size={20} />
-                    <span>归档</span>
-                </a>
-                <a href="#" className="mobile-nav-item" onClick={(e) => { e.preventDefault(); handleMobileNav('friendly-links'); }}>
-                    <LinkIcon size={20} />
-                    <span>友链</span>
-                </a>
-
-                <div className="mobile-nav-divider">我的</div>
-
-                <a href="#" className="dropdown-item">
-                    <span className="icon"><img src="/public/Kernel.svg"
-                        style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
-                    /></span> 内核
-                </a>
-                <a href="#" className="mobile-nav-item sub-item">
-                    <span className="icon"><img src="/public/magisk.svg"
-                        style={{ width: "20px", height: "20px", verticalAlign: "middle" }}
-                    /></span> root教程
-                </a>
-                <a href="#" className="mobile-nav-item sub-item">
-                    <span className="icon">🖼️</span> 相册
-                </a>
-                <a href="https://www.mi.com/redmi-k60ultra" className="mobile-nav-item sub-item">
-                    <span className="icon">📱</span> 我的设备
-                </a>
-
-                <div className="mobile-nav-divider"></div>
-
-                <a href="#" className="mobile-nav-item" onClick={(e) => { e.preventDefault(); handleMobileNav('others'); }}>
-                    <MoreHorizontal size={20} />
-                    <span>其他</span>
-                </a>
             </div>
         </header>
     );

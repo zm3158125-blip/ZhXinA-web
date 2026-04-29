@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from './Header';
 import Hero from './Hero';
 import ProfileCard from './ProfileCard';
 import PostList from './PostList';
 import Sidebar from './Sidebar';
-import ArchivesView from './ArchivesView';
-import FriendlyLinksView from './FriendlyLinksView';
-import OthersView from './OthersView';
-import './Layout.css';
+import MobileNotice from './MobileNotice';
 
-import PostDetail from './PostDetail';
-import ClearDataPage from '../pages/ClearDataPage';
-import HideEnvPage from '../pages/HideEnvPage';
+// Dynamic imports for code splitting
+const ArchivesView = React.lazy(() => import('./ArchivesView'));
+const FriendlyLinksView = React.lazy(() => import('./FriendlyLinksView'));
+const MyView = React.lazy(() => import('./MyView'));
+const OthersView = React.lazy(() => import('./OthersView'));
+const PostDetail = React.lazy(() => import('./PostDetail'));
+const ClearDataPage = React.lazy(() => import('../pages/ClearDataPage'));
+const HideEnvPage = React.lazy(() => import('../pages/HideEnvPage'));
+
+import './Layout.css';
 import type { PostData } from '../utils/markdown';
 
 // Import getAllPosts
@@ -21,10 +25,9 @@ import { getAllPosts } from '../utils/markdown';
 
 const Layout: React.FC = () => {
     const [activeView, setActiveView] = useState('home');
-    const [previousView, setPreviousView] = useState('home'); // New state for previous view
+    const [previousView, setPreviousView] = useState('home');
     const [selectedPost, setSelectedPost] = useState<PostData | null>(null);
-    const [wallpaperMode, setWallpaperMode] = useState('default');
-    const [activeArticle, setActiveArticle] = useState<string | null>(null); // New state for active article page
+    const [activeArticle, setActiveArticle] = useState<string | null>(null);
 
     // New state for posts and search
     const [posts, setPosts] = useState<PostData[]>([]);
@@ -99,90 +102,56 @@ const Layout: React.FC = () => {
                 variants={pageVariants}
                 transition={pageTransition}
             >
-                {(() => {
-                    switch (activeView) {
-                        case 'home': return <PostList posts={filteredPosts} loading={loading} onPostClick={handlePostClick} />;
-                        case 'post-detail':
-                            return selectedPost ? (
-                                <PostDetail
-                                    post={selectedPost}
-                                    onBack={() => handleNavigate(previousView)}
-                                />
-                            ) : <PostList posts={filteredPosts} loading={loading} onPostClick={handlePostClick} />;
-                        case 'article-detail':
-                            switch (activeArticle) {
-                                case 'clear-data':
-                                    return <ClearDataPage onBack={() => handleNavigate(previousView)} />;
-                                case 'hide-env':
-                                    return <HideEnvPage onBack={() => handleNavigate(previousView)} />;
-                                default:
-                                    return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Article not found</div>;
-                            }
-                        case 'archives': return <ArchivesView />;
-                        case 'friendly-links': return <FriendlyLinksView />;
-                        case 'others': return <OthersView onArticleClick={handleArticleNavigate} />;
-                        default: return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Section: {activeView}</div>;
-                    }
-                })()}
+                <Suspense fallback={<div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Loading...</div>}>
+                    {(() => {
+                        switch (activeView) {
+                            case 'home': return <PostList posts={filteredPosts} loading={loading} onPostClick={handlePostClick} />;
+                            case 'post-detail':
+                                return selectedPost ? (
+                                    <PostDetail
+                                        post={selectedPost}
+                                        onBack={() => handleNavigate(previousView)}
+                                    />
+                                ) : <PostList posts={filteredPosts} loading={loading} onPostClick={handlePostClick} />;
+                            case 'article-detail':
+                                switch (activeArticle) {
+                                    case 'clear-data':
+                                        return <ClearDataPage onBack={() => handleNavigate(previousView)} />;
+                                    case 'hide-env':
+                                        return <HideEnvPage onBack={() => handleNavigate(previousView)} />;
+                                    default:
+                                        return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Article not found</div>;
+                                }
+                            case 'archives': return <ArchivesView />;
+                            case 'friendly-links': return <FriendlyLinksView />;
+                            case 'profile': return <MyView />;
+                            case 'others': return <OthersView onArticleClick={handleArticleNavigate} />;
+                            default: return <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Section: {activeView}</div>;
+                        }
+                    })()}
+                </Suspense>
             </motion.div>
         );
     };
 
     return (
-        <div className={`app-layout ${wallpaperMode}`}>
-            {/* Dynamic styles for Wallpaper Modes */}
+        <div className="app-layout">
             <style>{`
-                /* Fullscreen Mode (Default behavior) */
-                ${wallpaperMode === 'fullscreen' || wallpaperMode === 'default' ? `
-                    body {
-                        background: radial-gradient(circle, #f3e5f5, #14708c);
-                        background-attachment: fixed;
-                        background-repeat: no-repeat;
-                    }
-                ` : ''}
-
-                /* Hide Wallpaper Mode */
-                ${wallpaperMode === 'none' ? `
-                    body {
-                        background-image: none !important;
-                        background-color: var(--color-bg-light);
-                    }
-                ` : ''}
-
-                /* Banner Mode */
-                ${wallpaperMode === 'banner' ? `
-                    body {
-                        background-image: none !important;
-                        background-color: var(--color-bg-light);
-                    }
-                    /* In Banner mode, hero section gets the image */
-                ` : ''}
+                body {
+                    background-color: var(--color-bg-light);
+                    transition: background-color 0.3s ease;
+                }
             `}</style>
 
             <Header
-                onNavigate={handleNavigate}
-                onWallpaperChange={setWallpaperMode}
-                onSearch={setSearchQuery}
-            />
+                    activeView={activeView}
+                    onNavigate={handleNavigate}
+                    onSearch={setSearchQuery}
+                />
 
-            {/* Banner Mode Hero Background Wrapper */}
-            {wallpaperMode === 'banner' && activeView === 'home' && (
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '500px', // Adjust height as needed
-                    backgroundImage: "url('/bg.webp')",
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    zIndex: -1,
-                    maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)'
-                }} />
-            )}
+                <MobileNotice />
 
-            <main className="main-container">
+                <main className="main-container">
                 <AnimatePresence mode="wait">
                     {activeView === 'home' && (
                         <motion.div
@@ -201,14 +170,14 @@ const Layout: React.FC = () => {
                         {activeView === 'home' && <ProfileCard />}
                     </aside>
 
-                    <section className="center-column" style={{ overflow: 'hidden' }}>
+                    <section className="center-column" style={{ overflowY: 'auto' }}>
                         <AnimatePresence mode="wait">
                             {renderContent()}
                         </AnimatePresence>
                     </section>
 
                     <aside className="right-column">
-                        <Sidebar posts={posts} showStats={activeView === 'home'} />
+                        {activeView !== 'root-tutorial' && <Sidebar posts={posts} showStats={activeView === 'home'} />}
                     </aside>
                 </div>
             </main>
