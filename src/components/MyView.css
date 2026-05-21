@@ -1,373 +1,199 @@
-.my-view {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    padding: 24px;
-    min-height: calc(100vh - 120px);
+.my-view .title-icon-inline {
+  color: var(--color-accent);
+  vertical-align: -4px;
+  margin-right: 8px;
 }
 
-.contact-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
+.my-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--content-gap);
 }
 
-.contact-card,
-.douyin-section {
-    padding: 24px;
+.my-card {
+  padding: var(--content-gap);
 }
 
-.contact-header {
-    text-align: center;
-    margin-bottom: 24px;
+.my-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-text);
 }
 
-.contact-header h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-    margin-bottom: 8px;
-}
-
-.contact-header p {
-    color: var(--color-text-secondary);
-    font-size: 0.95rem;
+.my-card--douyin .my-card-title {
+  color: #ff2c55;
 }
 
 .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 16px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-html.dark .contact-link {
-    background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition);
 }
 
 .contact-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    border-color: rgba(99, 102, 241, 0.2);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
 }
 
-.link-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.contact-link-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.link-icon img {
-    filter: none;
+.contact-link-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.link-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
+.contact-link-arrow {
+  color: var(--color-text-muted);
+  transition: transform var(--transition);
 }
 
-.link-name {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--color-text-main);
+.contact-link:hover .contact-link-arrow {
+  transform: translate(2px, -2px);
+  color: var(--color-accent);
 }
 
-.link-arrow {
-    color: var(--color-text-secondary);
-    transition: transform 0.3s ease;
+.media-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+  border: 1px dashed var(--color-border-strong);
+  transition: all var(--transition);
 }
 
-.contact-link:hover .link-arrow {
-    transform: translateX(4px);
+.media-tile:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
 }
 
-/* Douyin Section */
-.douyin-section {
-    background: linear-gradient(135deg, rgba(255, 44, 85, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%);
-    border: 1px solid rgba(255, 44, 85, 0.2);
+.media-tile-icon {
+  width: 64px;
+  height: auto;
 }
 
-.douyin-title {
-    margin-bottom: 16px;
+.media-tile-play {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
 }
 
-.douyin-title h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #ff2c55;
-    margin: 0;
+.media-tile-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text);
 }
 
-.douyin-click-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px;
-    background: white;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 44, 85, 0.1);
+.media-tile-sub {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
 }
 
-html.dark .douyin-click-card {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.douyin-click-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 30px rgba(255, 44, 85, 0.2);
-}
-
-.douyin-icon-wrapper {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff2c55 0%, #ff0000 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 20px rgba(255, 44, 85, 0.4);
-}
-
-.douyin-name-icon {
-    width: 60px;
-    height: auto;
-}
-
-.douyin-hint {
-    font-size: 0.9rem;
-    color: #ff2c55;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-}
-
-.douyin-id-text {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-}
-
-/* Modal Styles */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    animation: fadeIn 0.3s ease;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-content {
-    background: white;
-    border-radius: 24px;
-    padding: 24px;
-    max-width: 90vw;
-    max-height: 90vh;
-    overflow: hidden;
-    animation: scaleIn 0.3s ease;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  max-width: min(420px, 100%);
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+  animation: scaleIn 0.25s ease;
 }
 
 @keyframes scaleIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content--video {
+  max-width: min(720px, 100%);
 }
 
 .modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(0, 0, 0, 0.1);
-    color: var(--color-text-main);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 1;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-bg-muted);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
 }
 
 .modal-close:hover {
-    background: rgba(0, 0, 0, 0.2);
-    transform: rotate(90deg);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
-.douyin-qrcode-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+.modal-qr {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
 }
 
-.douyin-qrcode-image {
-    max-width: 100%;
-    max-height: 60vh;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(255, 44, 85, 0.3);
+.modal-video {
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
 }
 
-.modal-info {
-    text-align: center;
-}
-
-.modal-douyin-id {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ff2c55;
-    margin: 0 0 8px 0;
+.modal-highlight {
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 6px;
 }
 
 .modal-tip {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-}
-
-@media (max-width: 600px) {
-    .contact-section {
-        grid-template-columns: 1fr;
-    }
-    
-    .contact-link {
-        padding: 14px 16px;
-    }
-    
-    .link-icon {
-        width: 44px;
-        height: 44px;
-    }
-    
-    .modal-content {
-        padding: 16px;
-        border-radius: 16px;
-    }
-}
-/* 南昌大学视频卡片 - 适配暗黑模式 */
-.video-section {
-    width: 100%;
-    max-width: 420px;
-    padding: 24px;
-}
-.video-title h3 {
-    font-size: 18px;
-    margin: 0 0 16px 0;
-    color: var(--color-text-main); /* 替换固定色值为主题变量 */
-}
-.video-click-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-html.dark .video-click-card {
-    background: rgba(255, 255, 255, 0.05); /* 和抖音卡片一致的暗黑背景 */
-}
-.video-click-card:hover {
-    background: #f0f0f0;
-    transform: translateY(-2px);
-}
-/* 暗黑模式下的 hover 背景 */
-html.dark .video-click-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-.video-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #ffebee; /* 可根据需求调整为主题色渐变 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-/* 暗黑模式下的图标容器背景 */
-html.dark .video-icon-wrapper {
-    background: rgba(255, 235, 238, 0.15);
-}
-.video-hint {
-    font-size: 15px;
-    color: var(--color-text-main); /* 替换固定色值为主题变量 */
-    margin: 0;
-}
-.video-desc {
-    font-size: 13px;
-    color: var(--color-text-secondary); /* 替换固定色值为主题变量 */
-    margin: 0;
-}
-
-/* 视频弹窗 - 适配暗黑模式 */
-.video-modal {
-    max-width: 90%;
-    width: 70%;
-    padding: 20px;
-    background: white; /* 基础背景 */
-    border-radius: 24px; /* 和其他弹窗统一圆角 */
-}
-/* 暗黑模式下的弹窗背景 */
-html.dark .video-modal {
-    background: rgba(255, 255, 255, 0.05);
-}
-.video-player-container {
-    width: 100%;
-    margin-bottom: 16px;
-}
-.ncu-video {
-    border-radius: 12px;
-    outline: none;
-    width: 100%; /* 补充宽度，适配不同屏幕 */
-}
-/* 视频弹窗 */
-.video-modal {
-    max-width: 90%;
-    width: 70%;
-    padding: 20px;
-}
-.video-player-container {
-    width: 100%;
-    margin-bottom: 16px;
-}
-.ncu-video {
-    border-radius: 12px;
-    outline: none;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
 }

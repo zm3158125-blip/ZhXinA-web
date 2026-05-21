@@ -1,70 +1,52 @@
-
 import React, { useState, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
-import './PostList.css'; // 为实现玻璃拟态复用帖子列表样式
+import { Calendar, Clock } from 'lucide-react';
+import './ArchivesView.css';
+
+const LAUNCH_DATE = new Date('2026-01-11T00:00:00').getTime();
 
 const ArchivesView: React.FC = () => {
-    // 网站上线时间：2026年1月11日
-    const launchDate = new Date('2026-01-11T00:00:00').getTime();
+  const [timeRunning, setTimeRunning] = useState({ days: 0, hours: 0, seconds: 0 });
 
-    // 状态管理：已运行时间
-    const [timeRunning, setTimeRunning] = useState({
-        days: 0,
-        hours: 0,
-        seconds: 0
-    });
+  useEffect(() => {
+    const calculate = () => {
+      const diff = Date.now() - LAUNCH_DATE;
+      setTimeRunning({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    };
+    calculate();
+    const interval = setInterval(calculate, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-    useEffect(() => {
-        // 计算时间差的函数
-        const calculateTimeRunning = () => {
-            const now = new Date().getTime();
-            const diff = now - launchDate;
+  return (
+    <div className="archives-view page-shell card">
+      <header className="page-header">
+        <h1 className="page-title">
+          <Calendar size={24} className="title-icon-inline" />
+          归档
+        </h1>
+        <p className="page-desc">站点运行记录</p>
+      </header>
 
-            // 转换为天、小时、秒
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            setTimeRunning({ days, hours, seconds });
-        };
-
-        // 初始计算
-        calculateTimeRunning();
-
-        // 设置定时器，每秒更新一次
-        const interval = setInterval(calculateTimeRunning, 1000);
-
-        // 清理定时器
-        return () => clearInterval(interval);
-    }, [launchDate]);
-
-    return (
-        <div className="post-list glass-card">
-            <h2 className="section-title">
-                <Calendar className="title-icon" />
-                归档
-            </h2>
-
-            {/* 网站运行时间显示 */}
-            <div className="site-stats" style={{
-                padding: '20px',
-                textAlign: 'center',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                borderRadius: '12px',
-                margin: '20px',
-                border: '1px solid rgba(59, 130, 246, 0.3)'
-            }}>
-                <h3 style={{ color: 'var(--color-primary)', marginBottom: '15px' }}>网站运行统计</h3>
-                <p style={{ fontSize: '1.1rem', color: 'var(--text-main)', fontWeight: '500' }}>
-                    本网站上线为1月11日，已运行
-                    <span style={{ color: 'var(--color-primary)', fontWeight: '600', margin: '0 5px' }}>{timeRunning.days}</span>天
-                    <span style={{ color: 'var(--color-primary)', fontWeight: '600', margin: '0 5px' }}>{timeRunning.hours}</span>小时
-                    <span style={{ color: 'var(--color-primary)', fontWeight: '600', margin: '0 5px' }}>{timeRunning.seconds}</span>秒。
-                </p>
-            </div>
-
+      <div className="runtime-card">
+        <div className="runtime-icon">
+          <Clock size={28} />
         </div>
-    );
+        <div className="runtime-content">
+          <h3>网站运行统计</h3>
+          <p>
+            本网站于 1 月 11 日上线，已运行
+            <span className="highlight">{timeRunning.days}</span> 天
+            <span className="highlight">{timeRunning.hours}</span> 小时
+            <span className="highlight">{timeRunning.seconds}</span> 秒
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ArchivesView;

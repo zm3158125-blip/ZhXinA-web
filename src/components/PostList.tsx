@@ -1,72 +1,89 @@
 import React from 'react';
-import { Calendar, Tag, FileText, ChevronRight } from 'lucide-react';
+import { Calendar, Tag, FileText, ArrowRight } from 'lucide-react';
 import type { PostData } from '../utils/markdown';
 import './PostList.css';
 
 interface PostListProps {
-    onPostClick: (post: PostData) => void;
-    posts: PostData[];
-    loading: boolean;
+  onPostClick: (post: PostData) => void;
+  posts: PostData[];
+  loading: boolean;
 }
 
 const PostList: React.FC<PostListProps> = ({ onPostClick, posts, loading }) => {
-    if (loading) {
-        return <div className="loading" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' }}>Loading posts...</div>;
-    }
+  if (loading) {
+    return <div className="loading-state card">加载文章中…</div>;
+  }
 
-    if (posts.length === 0) {
-        return (
-            <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
-                No posts found matching your search.
-            </div>
-        );
-    }
-
+  if (posts.length === 0) {
     return (
-        <div className="post-list">
-            {posts.map(post => (
-                <article key={post.id} className="post-card glass-card">
-                    <div className="post-content">
-                        <h2 className="post-title">
-                            {post.isPinned && <span className="pin-icon">📍</span>}
-                            {post.title}
-                        </h2>
-
-                        <div className="post-meta">
-                            <div className="meta-item">
-                                <Calendar size={14} />
-                                <span>{post.date}</span>
-                            </div>
-                            <div className="meta-item">
-                                <FileText size={14} />
-                                <span>{post.wordCount} words</span>
-                            </div>
-                        </div>
-
-                        {/* Use ReactMarkdown for excerpt if it contains markdown syntax, or just plain text */}
-                        <div className="post-excerpt">
-                            {/* Limit excerpt length if needed, though util already does it */}
-                            {post.excerpt}
-                        </div>
-
-                        <div className="post-footer">
-                            <div className="post-tags">
-                                {post.tags.map(tag => (
-                                    <span key={tag} className="tag">
-                                        <Tag size={12} style={{ display: 'inline', marginRight: '4px' }} />
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                            <button className="read-more" onClick={() => onPostClick(post)} aria-label="Read full post">
-                                <ChevronRight size={20} />
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            ))}
-        </div>
+      <div className="empty-state card">
+        没有找到匹配的文章
+      </div>
     );
+  }
+
+  return (
+    <div className="post-feed">
+      <header className="feed-header">
+        <h2 className="feed-title">最新文章</h2>
+        <span className="feed-count">{posts.length} 篇</span>
+      </header>
+
+      <div className="post-list">
+        {posts.map((post, index) => (
+          <article
+            key={post.id}
+            className="post-card card"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
+            <div className="post-card-inner">
+              <div className="post-card-head">
+                {post.isPinned && <span className="post-pin">置顶</span>}
+                <h3 className="post-title">
+                  <button type="button" onClick={() => onPostClick(post)}>
+                    {post.title}
+                  </button>
+                </h3>
+              </div>
+
+              <div className="meta-row post-meta">
+                <span className="meta-item">
+                  <Calendar size={14} />
+                  {post.date}
+                </span>
+                <span className="meta-item">
+                  <FileText size={14} />
+                  {post.wordCount} 字
+                </span>
+              </div>
+
+              <p className="post-excerpt">{post.excerpt}</p>
+
+              <footer className="post-card-foot">
+                <div className="post-tags">
+                  {post.tags.map((tag) => (
+                    <span key={tag} className="tag-pill">
+                      <Tag size={11} />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="post-read-btn"
+                  onClick={() => onPostClick(post)}
+                  aria-label={`阅读 ${post.title}`}
+                >
+                  阅读
+                  <ArrowRight size={16} />
+                </button>
+              </footer>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default PostList;

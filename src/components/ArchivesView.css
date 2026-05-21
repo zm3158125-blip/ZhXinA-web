@@ -1,0 +1,55 @@
+.archives-view .title-icon-inline {
+  color: var(--color-accent);
+  vertical-align: -4px;
+  margin-right: 8px;
+}
+
+.runtime-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: var(--content-gap);
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.runtime-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.runtime-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+
+.runtime-content p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.runtime-content .highlight {
+  color: var(--color-accent);
+  font-weight: 700;
+  margin: 0 4px;
+}
+
+@media (max-width: 767px) {
+  .runtime-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

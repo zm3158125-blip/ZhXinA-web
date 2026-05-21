@@ -1,131 +1,86 @@
-.friend-links-container {
-    padding: 2rem;
-    min-height: 100%;
+.friend-links-view .title-icon-inline {
+  color: var(--color-accent);
+  vertical-align: -4px;
+  margin-right: 8px;
 }
 
-.friend-links-header {
-    margin-bottom: 2rem;
+.friend-links-toolbar {
+  margin-bottom: var(--content-gap);
 }
 
-.title-section h1 {
-    display: flex;
-    align-items: center;
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+.friend-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  height: 48px;
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  transition: border-color var(--transition);
 }
 
-.title-decoration {
-    color: #ff7b9c;
-    /* Accent color */
-    font-weight: 900;
-    margin-right: 10px;
-    font-size: 1.5em;
-    /* 把这个条状物变大 */
+.friend-search:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
-.subtitle {
-    color: var(--text-secondary);
-    margin-left: 20px;
-    /* Indent to align with text */
-    font-size: 0.9rem;
+.friend-search input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  min-width: 0;
 }
 
-/* Search Bar */
-.search-section {
-    margin: 1.5rem 0;
+.friend-search input::placeholder {
+  color: var(--color-text-muted);
 }
 
-.search-input-wrapper {
-    position: relative;
-    background: rgba(255, 123, 156, 0.1);
-    /* Light pinkish bg */
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    transition: background 0.3s;
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.search-input-wrapper:focus-within {
-    background: rgba(255, 123, 156, 0.15);
-    box-shadow: 0 0 0 2px rgba(255, 123, 156, 0.3);
+.category-tab {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 99px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-muted);
+  border: 1px solid transparent;
+  transition: all var(--transition);
 }
 
-.search-icon {
-    color: var(--text-secondary);
-    margin-right: 12px;
+.category-tab:hover {
+  color: var(--color-text);
+  border-color: var(--color-border);
 }
 
-.search-input {
-    width: 100%;
-    padding: 16px 0;
-    border: none;
-    background: transparent;
-    color: var(--text-primary);
-    font-size: 1rem;
-    outline: none;
+.category-tab.is-active {
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
 }
 
-.search-input::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.7;
-}
-
-/* Category Filter */
-.category-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 1rem;
-}
-
-.category-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: none;
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.9rem;
-}
-
-.dark .category-btn {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.category-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.category-btn.active {
-    background: #ff7b9c;
-    color: white;
-    box-shadow: 0 4px 10px rgba(255, 123, 156, 0.3);
-}
-
-/* Grid Layout */
 .friend-links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
 }
 
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-secondary);
+.friend-links-grid .empty-state {
+  grid-column: 1 / -1;
+  padding: 3rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .friend-links-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .friend-links-container {
-        padding: 1rem;
-    }
+@media (max-width: 767px) {
+  .friend-links-grid {
+    grid-template-columns: 1fr;
+  }
 }

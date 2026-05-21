@@ -1,100 +1,179 @@
-# Zhxin Web (隆隆是我)
+# Zhxin Web（隆隆是我）
 
-这是一个基于 React + Vite + TypeScript 构建的个人网站/博客项目。采用 Glassmorphism (毛玻璃) 风格设计，集成了博客文章、友链展示等功能。
+基于 **React 19 + Vite 7 + TypeScript** 的个人博客站点。采用暖色编辑风 UI、左侧导航布局，支持桌面 / 平板 / 手机全端适配。文章、友链、教程等数据均在本地配置，无后端依赖。
 
-## 项目结构 (Project Structure)
+## 功能概览
 
-### `src/` - 源代码目录
+| 模块 | 说明 |
+|------|------|
+| **首页** | Hero 标语、文章列表（搜索过滤、置顶、Markdown 摘要） |
+| **归档** | 站点上线时间与运行时长统计 |
+| **友链** | 分类筛选、关键词搜索、访问 / 复制链接 |
+| **我的** | 联系方式、抖音二维码、宣传视频弹窗 |
+| **其他** | 教程入口、Root 入门引导、**图片圆角处理工具** |
+| **文章详情** | 完整 Markdown 渲染 |
+| **主题** | 浅色 / 深色，默认跟随系统偏好 |
 
-- **`components/`** - UI 组件
-  - `Header.tsx`: 顶部导航栏，包含主题切换（日/夜模式，支持跟随系统）、搜索框和导航链接。
-  - `Layout.tsx`: 主布局组件，处理路由视图切换和页面过渡动画。
-  - `Hero.tsx`: 首页顶部的 Hero 区域（标语/简介）。
-  - `ProfileCard.tsx`: 个人信息卡片，展示头像、名称、简介和社交链接。
-  - `PostList.tsx`: 首页文章列表，展示文章摘要（Markdown 渲染，限制 3 行）。
-  - `PostDetail.tsx`: 文章详情页，展示完整的 Markdown 渲染内容。
-  - `Sidebar.tsx`: 侧边栏，包含站点统计数据。
-  - `ArchivesView.tsx`: 归档页面，展示网站运行时间。
-  - `FriendlyLinksView.tsx`: 友链展示页面，包含分类过滤和搜索功能。
-  - `OthersView.tsx`: 其他页面，包含图片圆角处理工具。
-  - `RootTutorialView.tsx`: Root 教程页面，包含设备选择、风险提示和分步教程。
-  - `LinkCard.tsx`: 友链卡片组件。
-  - `RootTutorial/` - Root 教程子组件目录
-    - `DeviceSelector.tsx`: 设备选择组件
-    - `RiskWarning.tsx`: 风险警告组件
-    - `TutorialStep.tsx`: 教程步骤组件
+## 技术栈
 
-- **`pages/`** - 文章页面组件
-  - `ClearDataPage.tsx`: 拉闸清除数据教程页面
-  - `HideEnvPage.tsx`: 隐藏环境教程页面
+- React 19、TypeScript、Vite 7
+- Framer Motion（页面过渡）
+- Lucide React（图标）
+- react-markdown + front-matter（文章解析）
+- 原生 Canvas（图片圆角导出，纯前端处理）
 
-- **`posts/`** - 博客文章 Markdown 文件
-  - 存放所有的 `.md` 文章文件。文件名即为 URL slug。
-  - 文件头部需包含 yaml frontmatter (标题、日期、标签等)。
+## 快速开始
 
-- **`kernel_Article/`** - 内核文章 Markdown 文件
-  - 存放内核相关的 `.md` 文章文件，供教程页面使用。
+```bash
+# 安装依赖
+npm install
 
-- **`utils/`** - 工具函数
-  - `markdown.ts`: 用于读取和解析 `posts/` 和 `kernel_Article/` 目录下所有 Markdown 文件的核心逻辑。
+# 本地开发（默认 http://localhost:5173）
+npm run dev
 
-- **`data/`** - 静态数据
-  - `friendLinks.ts`: 友链数据配置文件。
-  - `rootTutorialData.ts`: Root 教程步骤数据配置文件。
+# 生产构建（输出 dist/，含 gzip 压缩）
+npm run build
 
-### `public/` - 静态资源
-存放图片、图标 (SVG) 等不需要编译的静态文件。
+# 预览构建结果
+npm run preview
 
-## 使用说明 (How to Use)
+# 代码检查
+npm run lint
+```
 
-### 1. 添加博客文章 (Adding Posts)
-在 `src/posts/` 目录下创建一个新的 `.md` 文件，例如 `my-new-post.md`。
-在文件开头添加配置信息：
+## 项目结构
+
+```
+zhxin-web/
+├── public/                 # 静态资源（logo、图标、视频等）
+├── src/
+│   ├── App.tsx             # 根组件，挂载 AppProvider
+│   ├── main.tsx
+│   ├── index.css           # 全局样式入口
+│   │
+│   ├── layout/             # 布局与路由渲染
+│   │   ├── AppShell.tsx    # 侧栏 + 顶栏 + 主内容区
+│   │   └── ContentRouter.tsx  # 视图切换（懒加载各页面）
+│   │
+│   ├── context/
+│   │   ├── appContext.ts   # 导航 / 搜索等类型与 Context
+│   │   └── AppProvider.tsx # 全局状态
+│   │
+│   ├── hooks/
+│   │   ├── useApp.ts       # 读取导航上下文
+│   │   ├── useTheme.ts     # 主题切换
+│   │   ├── usePosts.ts     # 文章加载与搜索过滤
+│   │   └── useMediaQuery.ts
+│   │
+│   ├── styles/             # 设计系统
+│   │   ├── tokens.css      # 颜色、间距、断点变量
+│   │   ├── layout.css      # 栅格与侧栏布局
+│   │   └── components.css  # 卡片、按钮等通用样式
+│   │
+│   ├── components/         # UI 组件
+│   │   ├── SiteSidebar.tsx # 桌面端左侧导航 + 资料 + 统计
+│   │   ├── MobileNav.tsx   # 移动端底部导航
+│   │   ├── TopBar.tsx      # 顶栏（标题、搜索、主题）
+│   │   ├── Hero.tsx
+│   │   ├── HomePanel.tsx   # 移动端首页资料 / 统计条
+│   │   ├── PostList.tsx / PostDetail.tsx
+│   │   ├── ArchivesView.tsx
+│   │   ├── FriendlyLinksView.tsx / LinkCard.tsx
+│   │   ├── MyView.tsx
+│   │   ├── OthersView.tsx
+│   │   ├── ImageRoundTool.tsx   # 图片圆角工具
+│   │   └── RootTutorial/        # Root 教程子组件
+│   │
+│   ├── pages/              # 独立教程页（拉闸 / 隐藏环境）
+│   ├── posts/              # 博客 Markdown（自动扫描）
+│   ├── kernel_Article/     # 内核相关 Markdown 文稿（参考用）
+│   ├── data/
+│   │   ├── friendLinks.ts
+│   │   └── rootTutorialData.ts
+│   └── utils/
+│       ├── markdown.ts     # 文章解析
+│       └── imageRound.ts     # 圆角处理核心逻辑
+│
+├── index.html
+├── vite.config.ts
+└── package.json
+```
+
+## 布局说明
+
+- **≥768px（桌面 / 平板）**：左侧固定 `SiteSidebar`（品牌、导航；首页额外显示资料与站点统计），右侧 `TopBar` + 主内容。
+- **&lt;768px（手机）**：顶部 `TopBar`、底部 `MobileNav`，首页通过 `HomePanel` 展示资料与统计。
+- 视图切换由 `AppProvider` 管理（`home` / `archives` / `friendly-links` / `profile` / `others` / `post-detail` / `article-detail`），无 URL 路由库，刷新后回到首页。
+
+响应式断点统一为 **767px**、**1024px**，样式变量定义在 `src/styles/tokens.css`。
+
+## 使用指南
+
+### 添加博客文章
+
+在 `src/posts/` 新建 `xxx.md`，文件头部使用 YAML frontmatter：
 
 ```yaml
 ---
-title: "我的新文章"
-date: "2025-01-01"
-tags: ["生活", "随笔"]
-excerpt: "这是文章的简短摘要，会显示在首页列表..."
+title: "文章标题"
+date: "2026-01-01"
+tags: ["标签1", "标签2"]
+excerpt: "列表页显示的摘要，建议一两句话。"
 isPinned: false
 ---
 
-# 正文标题
-
-这里写正文内容，支持 Markdown 语法。
+正文支持标准 Markdown。
 ```
 
-### 2. 添加友链 (Adding Friend Links)
-编辑 `src/data/friendLinks.ts` 文件，在 `FRIEND_LINKS` 数组中添加新的对象：
+保存后开发服务器会自动热更新；`slug` 为文件名（不含 `.md`）。
+
+### 添加友链
+
+编辑 `src/data/friendLinks.ts`，向 `FRIEND_LINKS` 追加条目，`category` 需为 `CATEGORIES` 中已存在的 `id`：
 
 ```typescript
 {
-    id: 'unique-id',
-    name: '网站名称',
-    url: 'https://example.com',
-    description: '网站描述',
-    logo: '图标URL',
-    category: 'Framework', // 需对应 CATEGORIES 中的 ID
+  id: 'my-site',
+  name: '示例站点',
+  url: 'https://example.com',
+  description: '一句话介绍',
+  logo: '/path-or-url-to-logo.png',
+  category: 'blog',
 }
 ```
 
-### 3. 本地运行 (Run Locally)
-```bash
-npm install
-npm run dev
-```
+### 修改 Root 教程步骤
 
-### 4. 构建打包 (Build)
-```bash
-npm run build
-```
+编辑 `src/data/rootTutorialData.ts` 中的 `TUTORIAL_STEPS` 数组。
 
-## 技术栈 (Tech Stack)
-- **React 19**
-- **TypeScript**
-- **Vite**
-- **Framer Motion** (动画)
-- **Lucide React** (图标)
-- **React Markdown** (Markdown 渲染)
-- **Front Matter** (Markdown 元数据解析)
+### 图片圆角工具
+
+路径：**其他 → 图片圆角处理工具**（组件 `ImageRoundTool`）。
+
+| 能力 | 说明 |
+|------|------|
+| 圆角模式 | 统一半径，或四角独立调节 |
+| 预设 | 直角 / 小 / 中 / 大 / 超大 / 圆形 |
+| 背景 | 透明（PNG/WebP）或自定义纯色 |
+| 内边距 | 0–80px |
+| 边框 | 粗细与颜色 |
+| 导出 | PNG / JPEG / WebP，可调画质与最大边长 |
+| 隐私 | 全部在浏览器本地 Canvas 处理，不上传服务器 |
+
+逻辑实现见 `src/utils/imageRound.ts`。
+
+### 静态资源
+
+- 图片、图标、视频等放在 `public/`，引用时使用根路径，例如 `/logo.png`。
+- 避免使用 `/public/xxx` 形式（Vite 会以 `public` 为根目录映射）。
+
+## 开发说明
+
+- **新增页面视图**：在 `ContentRouter.tsx` 增加 `case`，并在 `appContext.ts` 的 `AppView` 类型、`SiteSidebar` / `MobileNav` 导航项中注册。
+- **主题变量**：优先改 `tokens.css`，组件样式通过 CSS 变量继承。
+- **类型检查**：`npx tsc -p tsconfig.app.json --noEmit`
+- 构建使用 `vite-plugin-compression` 生成 `.gz` 静态资源，部署时需服务器配置对应 MIME 与回退规则（若启用预压缩）。
+
+## 许可证
+
+私有个人项目，未指定开源协议时默认保留所有权利。
