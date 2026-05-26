@@ -132,3 +132,48 @@
     font-size: 1rem;
   }
 }
+
+/* ─── Detail Skeleton ─── */
+.detail-skeleton {
+  padding: 8px 0;
+}
+
+.skeleton-block {
+  background: var(--color-bg-muted);
+  border-radius: 6px;
+  animation: shimmer 1.4s ease-in-out infinite;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-bg-muted) 0%,
+    var(--color-border) 40%,
+    var(--color-bg-muted) 80%
+  );
+  background-size: 200% 100%;
+  margin-bottom: 16px;
+}
+
+.s-title {
+  height: 32px;
+  width: 72%;
+  margin-bottom: 24px;
+}
+
+.s-meta-line {
+  height: 16px;
+  width: 44%;
+  margin-bottom: 32px;
+}
+
+.s-content {
+  height: 16px;
+  width: 100%;
+}
+
+.s-content.short {
+  width: 58%;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

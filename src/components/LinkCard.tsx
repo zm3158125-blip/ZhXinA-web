@@ -1,44 +1,58 @@
 import React from 'react';
 import { ExternalLink, Copy } from 'lucide-react';
-import type { FriendLink } from '../data/friendLinks';
 import './LinkCard.css';
 
 interface LinkCardProps {
-  link: FriendLink;
+  name: string;
+  url: string;
+  description: string;
+  logo: string;
+  badge?: string;
 }
 
-const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
+const LinkCard: React.FC<LinkCardProps> = ({ name, url, description, logo, badge }) => {
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(link.url);
+    navigator.clipboard.writeText(url);
     alert('链接已复制!');
   };
+
+  let hostname = '';
+  try {
+    hostname = new URL(url).hostname;
+  } catch {
+    hostname = url;
+  }
 
   return (
     <div className="link-card card">
       <div className="link-card-top">
         <div className="link-logo-wrap">
           <img
-            src={link.logo}
+            src={logo}
             alt=""
             className="link-logo"
             onError={(e) => {
-              e.currentTarget.src = '/vite.svg';
+              (e.currentTarget as HTMLImageElement).src = '/vite.svg';
             }}
           />
         </div>
         <div className="link-card-info">
-          <h3 className="link-name">{link.name}</h3>
-          <span className="link-host">{new URL(link.url).hostname}</span>
+          <h3 className="link-name">{name}</h3>
+          <span className="link-host">{hostname}</span>
         </div>
       </div>
 
-      <p className="link-desc">{link.description}</p>
+      <p className="link-desc">{description}</p>
 
       <footer className="link-card-foot">
-        <span className="link-cat">{link.category}</span>
+        {badge ? (
+          <span className="link-cat">{badge}</span>
+        ) : (
+          <span />
+        )}
         <div className="link-actions">
           <a
-            href={link.url}
+            href={url}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary link-visit"

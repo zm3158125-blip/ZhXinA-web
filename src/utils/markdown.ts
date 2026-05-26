@@ -7,10 +7,13 @@ export interface PostData {
     date: string;
     tags: string[];
     excerpt: string;
-    content: string; // The raw markdown content
+    content: string;
     wordCount: number;
     isPinned?: boolean;
     slug: string;
+    cover?: string;
+    category?: string;
+    views?: number;
 }
 
 interface FrontMatterAttributes {

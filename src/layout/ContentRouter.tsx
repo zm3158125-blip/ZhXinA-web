@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useApp } from '../hooks/useApp';
 import PostList from '../components/PostList';
-import { usePosts } from '../hooks/usePosts';
+import type { PostData } from '../utils/markdown';
 
 const ArchivesView = React.lazy(() => import('../components/ArchivesView'));
 const FriendlyLinksView = React.lazy(() => import('../components/FriendlyLinksView'));
@@ -24,27 +24,55 @@ const pageTransition = {
   duration: 0.28,
 };
 
-const ContentRouter: React.FC = () => {
+interface ContentRouterProps {
+  posts: PostData[];
+  loading: boolean;
+  loadingMore: boolean;
+  hasMore: boolean;
+  onLoadMore: () => void;
+}
+
+const ContentRouter: React.FC<ContentRouterProps> = ({
+  posts,
+  loading,
+  loadingMore,
+  hasMore,
+  onLoadMore,
+}) => {
   const {
     activeView,
     selectedPost,
     activeArticle,
-    searchQuery,
     openPost,
     openArticle,
     goBack,
   } = useApp();
-  const { filteredPosts, loading } = usePosts(searchQuery);
 
   const renderView = () => {
     switch (activeView) {
       case 'home':
-        return <PostList posts={filteredPosts} loading={loading} onPostClick={openPost} />;
+        return (
+          <PostList
+            posts={posts}
+            loading={loading}
+            loadingMore={loadingMore}
+            hasMore={hasMore}
+            onLoadMore={onLoadMore}
+            onPostClick={openPost}
+          />
+        );
       case 'post-detail':
         return selectedPost ? (
           <PostDetail post={selectedPost} onBack={goBack} />
         ) : (
-          <PostList posts={filteredPosts} loading={loading} onPostClick={openPost} />
+          <PostList
+            posts={posts}
+            loading={loading}
+            loadingMore={loadingMore}
+            hasMore={hasMore}
+            onLoadMore={onLoadMore}
+            onPostClick={openPost}
+          />
         );
       case 'article-detail':
         switch (activeArticle) {

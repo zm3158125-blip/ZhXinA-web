@@ -11,7 +11,7 @@ import { usePosts } from '../hooks/usePosts';
 
 const AppShell: React.FC = () => {
   const { isHome, searchQuery } = useApp();
-  const { posts } = usePosts(searchQuery);
+  const { posts, filteredPosts, loading, loadingMore, hasMore, loadMore } = usePosts(searchQuery);
 
   return (
     <div className="app-layout">
@@ -39,7 +39,13 @@ const AppShell: React.FC = () => {
 
           <div className="content-area">
             <AnimatePresence mode="wait">
-              <ContentRouter />
+              <ContentRouter
+                posts={filteredPosts}
+                loading={loading}
+                loadingMore={loadingMore}
+                hasMore={hasMore}
+                onLoadMore={loadMore}
+              />
             </AnimatePresence>
           </div>
         </div>
