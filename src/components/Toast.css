@@ -1,0 +1,28 @@
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 99px;
+  box-shadow: var(--shadow-lg);
+  z-index: 999;
+  white-space: nowrap;
+}
+
+.toast svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+  .toast {
+    bottom: calc(var(--bottom-nav-height) + 16px);
+  }
+}

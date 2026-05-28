@@ -21,30 +21,37 @@ function buildClient() {
 const client = buildClient()
 
 /**
- * 安全的 Supabase 代理 —— 当 client 为 null 时，
- * 所有 .from() / .rpc() 调用返回空结果而非抛错。
+ * 安全代理 —— client 为 null 时所有调用返回空结果而非抛错。
+ * 支持 .from().select().eq().order().range() 等链式调用。
  */
-export const supabase = new Proxy(
-  {},
-  {
-    get(_, prop) {
-      if (!client) {
-        // 返回一个空操作代理
-        const noop = new Proxy(
-          {},
-          {
-            get(_, p) {
-              if (p === 'then' || p === 'catch' || p === 'finally') return undefined
-              return noop
-            },
-          }
-        )
+function createSafeSupabase() {
+  if (client) return client
+
+  // 可调用的 noop，支持链式 .anyProp() 和 await
+  const noop = new Proxy(
+    () => {},
+    {
+      get(_, p) {
+        // 让 await / Promise 链认为这不是 thenable
+        if (p === 'then' || p === 'catch' || p === 'finally') return undefined
+        return noop
+      },
+      apply() {
+        return noop
+      },
+    }
+  )
+
+  return new Proxy(
+    {},
+    {
+      get(_, prop) {
         if (prop === 'from') return () => noop
         if (prop === 'rpc') return () => noop
         return noop
-      }
-      const val = (client as any)[prop]
-      return typeof val === 'function' ? val.bind(client) : val
-    },
-  }
-) as ReturnType<typeof createClient>
+      },
+    }
+  ) as ReturnType<typeof createClient>
+}
+
+export const supabase = createSafeSupabase()

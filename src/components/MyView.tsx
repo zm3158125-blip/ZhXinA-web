@@ -13,7 +13,7 @@ const contactLinks = [
   {
     name: 'Bilibili',
     url: 'https://space.bilibili.com/3493283730819516',
-    icon: <img src="/public/bilibilif.svg" alt="" width={22} height={22} />,
+    icon: <img src="/bilibilif.svg" alt="" width={22} height={22} />,
     color: '#FB7299',
     bgColor: 'rgba(251, 114, 153, 0.12)',
   },

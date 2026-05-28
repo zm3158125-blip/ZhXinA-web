@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink, Copy } from 'lucide-react';
+import { showToast } from './Toast';
 import './LinkCard.css';
 
 interface LinkCardProps {
@@ -13,7 +14,7 @@ interface LinkCardProps {
 const LinkCard: React.FC<LinkCardProps> = ({ name, url, description, logo, badge }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url);
-    alert('链接已复制!');
+    showToast('链接已复制 ✓');
   };
 
   let hostname = '';

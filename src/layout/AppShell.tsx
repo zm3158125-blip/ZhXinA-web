@@ -5,6 +5,7 @@ import MobileNav from '../components/MobileNav';
 import TopBar from '../components/TopBar';
 import Hero from '../components/Hero';
 import HomePanel from '../components/HomePanel';
+import Toast from '../components/Toast';
 import ContentRouter from './ContentRouter';
 import { useApp } from '../hooks/useApp';
 import { usePosts } from '../hooks/usePosts';
@@ -52,6 +53,7 @@ const AppShell: React.FC = () => {
       </div>
 
       <MobileNav />
+      <Toast />
     </div>
   );
 };

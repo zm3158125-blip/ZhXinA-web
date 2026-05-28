@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import type { PostData } from '../utils/markdown';
 import { fetchArticleById } from '../services/articleService';
-import { ArrowLeft, Calendar, Tag, FileText, Eye } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import './PostDetail.css';
 
 interface PostDetailProps {
@@ -77,16 +77,6 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack }) => {
             <Calendar size={16} />
             {article.date}
           </span>
-          <span className="meta-item">
-            <FileText size={16} />
-            {article.wordCount} 字
-          </span>
-          {typeof article.views === 'number' && (
-            <span className="meta-item">
-              <Eye size={16} />
-              {article.views} 阅读
-            </span>
-          )}
           {article.tags.map((tag) => (
             <span key={tag} className="tag-pill">
               <Tag size={12} />

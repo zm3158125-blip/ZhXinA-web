@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Tag, FileText, ArrowRight, Loader2 } from 'lucide-react';
+import { Calendar, Tag, ArrowRight, Loader2 } from 'lucide-react';
 import type { PostData } from '../utils/markdown';
 import './PostList.css';
 
@@ -53,15 +53,6 @@ const PostCard: React.FC<{ post: PostData; index: number; onPostClick: (post: Po
           <Calendar size={14} />
           {post.date}
         </span>
-        <span className="meta-item">
-          <FileText size={14} />
-          {post.wordCount} 字
-        </span>
-        {typeof post.views === 'number' && (
-          <span className="meta-item">
-            {post.views} 阅读
-          </span>
-        )}
       </div>
 
       <p className="post-excerpt">{post.excerpt}</p>

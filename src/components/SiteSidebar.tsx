@@ -67,7 +67,7 @@ const SiteSidebar: React.FC<SiteSidebarProps> = ({ posts, showExtras = false }) 
           <div className="sidebar-profile card">
             <img src="/logo.svg" alt="" className="sidebar-avatar" />
             <div className="sidebar-profile-info">
-              <strong>zhxin</strong>
+              <strong>LonLsMe</strong>
               <span>Frontend Developer</span>
             </div>
             <div className="sidebar-socials">
