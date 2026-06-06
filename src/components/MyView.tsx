@@ -1,28 +1,21 @@
 import React, { useState } from 'react';
-import { Github, Mail, X, ExternalLink, Play, User } from 'lucide-react';
+import {  Mail, X, ExternalLink, Play, User } from 'lucide-react';
 import './MyView.css';
 
 const contactLinks = [
   {
-    name: 'GitHub',
-    url: 'https://github.com/zm3158125-blip',
-    icon: <Github size={22} />,
-    color: '#333',
-    bgColor: 'var(--color-bg-muted)',
-  },
-  {
-    name: 'Bilibili',
-    url: 'https://space.bilibili.com/3493283730819516',
+    name: 'Telegram',
+    url: 'https://t.me/+FGvZ5nxjPS82OWI1',
     icon: <img src="/bilibilif.svg" alt="" width={22} height={22} />,
-    color: '#FB7299',
-    bgColor: 'rgba(251, 114, 153, 0.12)',
+    color: '#4fc0f5',
+    bgColor: 'rgba(53,191,239,0.12)',
   },
   {
     name: 'Email',
     url: 'mailto:zlx528gtr@outlook.com',
     icon: <Mail size={22} />,
     color: '#EA4335',
-    bgColor: 'rgba(234, 67, 53, 0.1)',
+    bgColor: 'rgba(140,137,137,0.1)',
   },
 ];
 

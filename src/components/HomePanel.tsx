@@ -17,8 +17,8 @@ const HomePanel: React.FC<HomePanelProps> = ({ posts }) => {
       <div className="home-panel-profile card">
         <img src="/logo.svg" alt="" className="home-panel-avatar" />
         <div>
-          <strong>zhxin</strong>
-          <span>Frontend Developer</span>
+          <strong>LonLsMe</strong>
+          <span>许多资源都是网上搜集的</span>
         </div>
       </div>
       <div className="home-panel-stat card">
